@@ -73,12 +73,12 @@ Future<void> rtmClientEventHandler({
   };
 
   agoraRtmClient.onLocalInvitationAccepted =
-      (AgoraRtmLocalInvitation invitation) {
+      (AgoraRtmLocalInvitation invitation, String response) {
     agoraRtmClientEventHandler.onLocalInvitationAccepted?.call(invitation);
   };
 
   agoraRtmClient.onLocalInvitationRefused =
-      (AgoraRtmLocalInvitation invitation) {
+      (AgoraRtmLocalInvitation invitation, String response) {
     agoraRtmClientEventHandler.onLocalInvitationRefused?.call(invitation);
   };
 
