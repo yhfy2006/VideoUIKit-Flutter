@@ -85,6 +85,9 @@ class SessionController extends ValueNotifier<AgoraSettings> {
   }
 
   Future<void> askForUserCameraAndMicPermission() async {
+    if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
+      return;
+    }
     await [Permission.camera, Permission.microphone].request();
   }
 

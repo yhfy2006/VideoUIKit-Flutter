@@ -4,15 +4,19 @@ import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:agora_uikit/agora_uikit.dart';
 import 'package:agora_uikit/controllers/session_controller.dart';
 import 'package:agora_uikit/models/agora_settings.dart';
+import 'package:agora_uikit/utils.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 /// Function to mute/unmute the microphone
 Future<void> toggleMute({required SessionController sessionController}) async {
-  var status = await Permission.microphone.status;
-  if (sessionController.value.isLocalUserMuted && status.isDenied) {
-    await Permission.microphone.request();
+  if (!Utils.isDesktop()) {
+    var status = await Permission.microphone.status;
+    if (sessionController.value.isLocalUserMuted && status.isDenied) {
+      await Permission.microphone.request();
+    }
   }
+
   sessionController.value = sessionController.value
       .copyWith(isLocalUserMuted: !(sessionController.value.isLocalUserMuted));
   await sessionController.value.engine
@@ -22,10 +26,13 @@ Future<void> toggleMute({required SessionController sessionController}) async {
 /// Function to toggle enable/disable the camera
 Future<void> toggleCamera(
     {required SessionController sessionController}) async {
-  var status = await Permission.camera.status;
-  if (sessionController.value.isLocalVideoDisabled && status.isDenied) {
-    await Permission.camera.request();
+  if (!Utils.isDesktop()) {
+    var status = await Permission.camera.status;
+    if (sessionController.value.isLocalVideoDisabled && status.isDenied) {
+      await Permission.camera.request();
+    }
   }
+
   sessionController.value = sessionController.value.copyWith(
       isLocalVideoDisabled: !(sessionController.value.isLocalVideoDisabled));
   await sessionController.value.engine
@@ -35,10 +42,13 @@ Future<void> toggleCamera(
 /// Function to switch between front and rear camera
 Future<void> switchCamera(
     {required SessionController sessionController}) async {
-  var status = await Permission.camera.status;
-  if (status.isDenied) {
-    await Permission.camera.request();
+  if (!Utils.isDesktop()) {
+    var status = await Permission.camera.status;
+    if (status.isDenied && !Utils.isDesktop()) {
+      await Permission.camera.request();
+    }
   }
+
   await sessionController.value.engine?.switchCamera();
 }
 

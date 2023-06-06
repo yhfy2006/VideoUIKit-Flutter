@@ -1,6 +1,7 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:agora_uikit/agora_uikit.dart';
 import 'package:agora_uikit/src/layout/widgets/disabled_video_widget.dart';
+import 'package:agora_uikit/utils.dart';
 import 'package:flutter/material.dart';
 
 class OneToOneLayout extends StatefulWidget {
@@ -110,12 +111,16 @@ class _OneToOneLayoutState extends State<OneToOneLayout> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, right: 4),
+                  padding: Utils.isDesktop()
+                      ? const EdgeInsets.only(top: 10.0, right: 20)
+                      : const EdgeInsets.only(top: 8.0, right: 4),
                   child: Align(
                     alignment: Alignment.topRight,
                     child: Container(
                       height: MediaQuery.of(context).size.height * 0.2,
-                      width: MediaQuery.of(context).size.width / 3,
+                      width: Utils.isDesktop()
+                          ? MediaQuery.of(context).size.height * 0.2
+                          : MediaQuery.of(context).size.width / 3,
                       child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: _getLocalViews()),
